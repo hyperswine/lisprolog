@@ -1,0 +1,27 @@
+run("                                                         \
+                                                                 \
+    (defun map (f xs)                                            \
+      (if xs                                                     \
+          (cons (eval (list f (car xs))) (map f (cdr xs)))       \
+        ()))                                                     \
+                                                                 \
+    (defun plus1 (x) (+ 1 x))                                    \
+                                                                 \
+    (map 'plus1 '(1 2 3))                                        \
+                                                                 \
+    ", Vs).
+   Vs = [map,plus1,[2,3,4]].
+
+phrase(tree_nodes(node(a, node(b, nil, node(c, nil, nil)), node(d, nil, nil))), Ns).
+
+         --> nil
+  ---> b --> c
+a
+  ---> d --> nil
+         --> nil
+
+phrase(tree_nodes(Tree), "abcd").
+
+if you do that and then you go ;
+it doesnt terminate
+due to left recursion
