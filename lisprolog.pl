@@ -13,6 +13,8 @@ ws --> [W], { char_type(W, whitespace) }, ws.
 ws --> [].
 
 % A number N is represented as n(N), a symbol S as s(S).
+
+% match a symbol. If Cs matches a symbol, then retrieve it to A
 expression(s(A)) --> symbol(Cs), { atom_chars(A, Cs) }.
 expression(n(N)) --> number(Cs), { number_chars(N, Cs) }.
 expression(List) --> "(", expressions(List), ")".
