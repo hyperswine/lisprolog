@@ -1,15 +1,15 @@
 :- module(alzint, [run/1, step/1]).
 
 :- use_module(library(assoc)).
-% :- use_module(library(clpz)).
-% :- use_module(library(clpqr)).
 :- use_module(library(clpfd)).
 :- use_module(library(pio)).
 :- use_module(library(lists)).
-:- use_module(library(format)).
 :- use_module(library(charsio)).
-:- use_module(library(dcg/basics)).
+% :- use_module(library(dcg/basics)).
 :- use_module(library(dcg/high_order)).
+
+seq([])     --> [].
+seq([E|Es]) --> [E], seq(Es).
 
 interpret(step, Stmts, Prog, Env0, Env) :- step(Stmts, Prog, [], Env0, Env).
 interpret(run, Stmts, Prog, Env0, Env)  :- run(Stmts, Prog, Env0, Env).
@@ -18,20 +18,18 @@ step([], _, _, Env, Env).
 step([S0|Ss0], Prog, Undo0, Env0, Env) :-
   phrase(unfold_seqs([S0|Ss0]), [S|Ss]),
   question(Prog, S, Env0, Choice),
-  (   Choice = c ->
-      S = stm(Line,Stm),
-      phrase(step_(Stm, Line, Env0, Env1), Rest, Ss),
-      step(Rest, Prog, [[S|Ss]-Env0|Undo0], Env1, Env)
-  ;   Choice = u ->
-      (   Undo0 = [Us-UEs|Undo1] ->
-          step(Us, Prog, Undo1, UEs, Env)
-      ;   format("~nnothing to undo~2n", []),
-          step([S|Ss], Prog, Undo0, Env0, Env)
-      )
-  ;   Choice = q -> halt
-  ;   Choice = r -> run([S|Ss], Prog, Env0, Env)
-  ;   format("invalid choice~2n", []),
-      step([S|Ss], Prog, Undo0, Env0, Env)
+  ( Choice = c ->
+    S = stm(Line,Stm),
+    phrase(step_(Stm, Line, Env0, Env1), Rest, Ss),
+    step(Rest, Prog, [[S|Ss]-Env0|Undo0], Env1, Env)
+    ; Choice = u ->
+    ( Undo0 = [Us-UEs|Undo1] ->
+        step(Us, Prog, Undo1, UEs, Env)
+        ; format("~nnothing to undo~2n", []), step([S|Ss], Prog, Undo0, Env0, Env)
+    )
+    ; Choice = q -> halt
+    ; Choice = r -> run([S|Ss], Prog, Env0, Env)
+    ; format("invalid choice~2n", []), step([S|Ss], Prog, Undo0, Env0, Env)
   ).
 
 run([], _, Env, Env).
