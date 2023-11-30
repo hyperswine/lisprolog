@@ -25,3 +25,22 @@ phrase(tree_nodes(Tree), "abcd").
 if you do that and then you go ;
 it doesnt terminate
 due to left recursion
+
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+?- alzint:run_("begin x <- 3; if x + y < 19 then x <- x + 19 else x <- y + y end", step).
+
+
+?- alzint:run_("I(x) = 10             \n\
+                I(f) = 1              \n\
+                                      \n\
+                while (x >= 2) do     \n\
+                  begin               \n\
+                   f <- f * x         \n\
+                  ;                   \n\
+                   x <- x - 1         \n\
+                  end                 \n\
+",
+   step).
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
