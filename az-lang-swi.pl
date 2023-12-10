@@ -19,14 +19,14 @@ step([S0|Ss0], Prog, Undo0, Env0, Env) :-
   phrase(unfold_seqs([S0|Ss0]), [S|Ss]),
   question(Prog, S, Env0, Choice),
   ( Choice = c ->
-    S = stm(Line,Stm),
-    phrase(step_(Stm, Line, Env0, Env1), Rest, Ss),
-    step(Rest, Prog, [[S|Ss]-Env0|Undo0], Env1, Env)
+      S = stm(Line,Stm),
+      phrase(step_(Stm, Line, Env0, Env1), Rest, Ss),
+      step(Rest, Prog, [[S|Ss]-Env0|Undo0], Env1, Env)
     ; Choice = u ->
-    ( Undo0 = [Us-UEs|Undo1] ->
-        step(Us, Prog, Undo1, UEs, Env)
+      ( Undo0 = [Us-UEs|Undo1] ->
+          step(Us, Prog, Undo1, UEs, Env)
         ; format("~nnothing to undo~2n", []), step([S|Ss], Prog, Undo0, Env0, Env)
-    )
+      )
     ; Choice = q -> halt
     ; Choice = r -> run([S|Ss], Prog, Env0, Env)
     ; format("invalid choice~2n", []), step([S|Ss], Prog, Undo0, Env0, Env)
@@ -49,7 +49,6 @@ eval(bin(Op,A,B), Env, Value) :- eval(A, Env, VA), eval(B, Env, VB), eval_(Op, V
 eval(v(V), Env, Value) :- (env_get_var(Env, V, Value) -> true ; format("~2nvariable '~w' not in environment.~3n", [V]), halt ).
 eval(n(N), _, N).
 eval(uminus(F), Env, Value) :- eval(F, Env, V), Value #= -V.
-
 
 eval_(+, A, B, V)   :- V #= A + B.
 eval_(-, A, B, V)   :- V #= A - B.

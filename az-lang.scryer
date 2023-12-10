@@ -28,8 +28,7 @@
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-:- module(alzint, [run/1,
-                   step/1]).
+:- module(alzint, [run/1, step/1]).
 
 :- use_module(library(assoc)).
 :- use_module(library(clpz)).

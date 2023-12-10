@@ -29,6 +29,9 @@ Prolog&nbsp;feature is very similar to Haskell's&nbsp;<i>monads</i>.
 Read [**The Power of Prolog**](https://www.metalevel.at/prolog) for
 more information about&nbsp;Prolog.
 
+Independence of Rewriting Rules: If multiple rules can be applied independently without affecting each other's applicability or the correctness of the result, they can be executed in parallel. This is often the case when the subterms being rewritten do not overlap.
+
+
 
 Sample queries, using Scryer Prolog:
 
@@ -134,3 +137,22 @@ Sample queries, using Scryer Prolog:
 More information about this interpreter is available at:
 
 [**https://www.metalevel.at/lisprolog/**](https://www.metalevel.at/lisprolog/)
+
+?- "hi2 " = ['h', 'i', '2', ' '].
+false.
+
+?- phrase(number(12), "12").
+   false.
+?- phrase(number(X), "12").
+   X = "12"
+;  false.
+
+what
+
+how to trace
+
+['1'], []) ? creep
+?- phrase(number(X), "1").
+ERROR: Type error: `char_type' expected, found `decimal_digit' (an atom)
+
+Prolog prints "creep" on the same line, and then prints the next line of trace output on the next line. Pressing return again produces "creep" again and another line of tracing, and so on.
