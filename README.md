@@ -156,3 +156,8 @@ how to trace
 ERROR: Type error: `char_type' expected, found `decimal_digit' (an atom)
 
 Prolog prints "creep" on the same line, and then prints the next line of trace output on the next line. Pressing return again produces "creep" again and another line of tracing, and so on.
+
+I guess I dont know if I like the extra stuff
+list stuff
+
+and splicing {} ...
